@@ -1,0 +1,7 @@
+- name: Add configuration to pg_hba.conf
+  become: yes
+  lineinfile:
+    dest={{ postgresql_data_dir }}/pg_hba.conf
+    insertafter='^# TYPE'
+    line='local testdb testuser md5'
+  notify: Restart PostgreSQL service

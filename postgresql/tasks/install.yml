@@ -13,7 +13,7 @@
 - name: Init database
   become: yes
   command: >
-    /usr/pgsql-{{ postgresql_version }}/bin/postgresql{{ postgresql_version_terse }}-setup initdb creates=/var/lib/pgsql/{{ postgresql_version }}/data/postgresql.conf
+    /usr/pgsql-{{ postgresql_version }}/bin/postgresql{{ postgresql_version_terse }}-setup initdb creates={{ postgresql_data_dir }}/postgresql.conf
 
 - name: Start PostgreSQL service
   become: yes
