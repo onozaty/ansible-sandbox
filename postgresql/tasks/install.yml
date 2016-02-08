@@ -1,0 +1,9 @@
+- name: install postgresql yum repository
+  yum: name={{ postgresql_yum_repository_url }} state=present
+
+- name: install postgresql-server
+  yum: name={{ postgresql_server_rpm_name }} state=present
+
+- name: init databse
+  command: >
+    {{ postgresql_setup_command }} initdb creates=/var/lib/pgsql/{{ postgresql_version }}/data/postgresql.conf

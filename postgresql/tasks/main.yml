@@ -1,17 +1,1 @@
-- hosts: db-server
-  become: yes
-  vars:
-    postgresql_yum_repository_url: http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
-    postgresql_version: 9.5
-    postgresql_version_terse: "{{ postgresql_version | replace('.', '') }}"
-    postgresql_server_rpm_name: postgresql{{ postgresql_version_terse }}-server
-    postgresql_service_name: postgresql-{{ postgresql_version }}
-    postgresql_setup_command: /usr/pgsql-{{ postgresql_version }}/bin/postgresql{{ postgresql_version_terse }}-setup
-  tasks: 
-    - name: install postgresql yum repository
-      yum: name={{ postgresql_yum_repository_url }} state=present
-    - name: install postgresql-server
-      yum: name={{ postgresql_server_rpm_name }} state=present
-    - name: init databse
-      command: >
-        {{ postgresql_setup_command }} initdb creates=/var/lib/pgsql/{{ postgresql_version }}/data/postgresql.conf
+- include: install.yml
