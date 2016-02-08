@@ -1,9 +1,21 @@
-- name: install postgresql yum repository
-  yum: name={{ postgresql_yum_repository_url }} state=present
+- name: Add PostgreSQL yum repository
+  become: yes
+  yum: name={{ postgresql_yum_repository_url }}
 
-- name: install postgresql-server
-  yum: name={{ postgresql_server_rpm_name }} state=present
+- name: Install dependencies
+  become: yes
+  yum: name=python-psycopg2
 
-- name: init databse
+- name: Install PostgreSQL
+  become: yes
+  yum: name=postgresql{{ postgresql_version_terse }}-server
+
+- name: Init database
+  become: yes
   command: >
-    {{ postgresql_setup_command }} initdb creates=/var/lib/pgsql/{{ postgresql_version }}/data/postgresql.conf
+    /usr/pgsql-{{ postgresql_version }}/bin/postgresql{{ postgresql_version_terse }}-setup initdb creates=/var/lib/pgsql/{{ postgresql_version }}/data/postgresql.conf
+
+- name: Start PostgreSQL service
+  become: yes
+  service: name={{ postgresql_service_name}} state=started enabled=yes
+

@@ -1,0 +1,7 @@
+- name: Add user (http://docs.ansible.com/ansible/postgresql_user_module.html)
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    db=testdb
+    name=testuser
+    password=xxxxxx
