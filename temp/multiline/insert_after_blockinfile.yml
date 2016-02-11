@@ -1,0 +1,9 @@
+- hosts: all
+  tasks:
+    - name: 特定の場所に追加
+      blockinfile:
+        dest: ./test.txt
+        insertafter: '# xxxx'
+        content: |
+          1行目
+          2行目

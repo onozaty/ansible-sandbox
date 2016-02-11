@@ -1,0 +1,10 @@
+- hosts: all
+  tasks:
+    - name: 特定の場所に追加
+      lineinfile:
+        dest=./test.txt
+        insertafter='# xxxx'
+        line={{ item }}
+      with_items:
+        - '1行目'
+        - '2行目'

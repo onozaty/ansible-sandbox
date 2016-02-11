@@ -1,0 +1,9 @@
+- hosts: all
+  tasks:
+    - name: 末尾に挿入
+      lineinfile:
+        dest=./test.txt
+        line={{ item }}
+      with_items:
+        - '1行目'
+        - '2行目'
