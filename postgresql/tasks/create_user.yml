@@ -1,7 +1,11 @@
-- name: Add user (http://docs.ansible.com/ansible/postgresql_user_module.html)
+# http://docs.ansible.com/ansible/postgresql_user_module.html
+- name: Add user
   become: yes
-  become_user: postgres
+  become_user: "{{ postgresql_admin_user }}"
   postgresql_user:
-    db=testdb
-    name=testuser
-    password=xxxxxx
+    name: "{{ item.name }}"
+    password: "{{ item.pass }}"
+    encrypted: "{{ item.encrypted | default(omit) }}"
+    state: present
+  with_items: postgresql_users
+  when: postgresql_users|length > 0

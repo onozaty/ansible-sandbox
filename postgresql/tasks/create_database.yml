@@ -1,9 +1,14 @@
-- name: Create database (http://docs.ansible.com/ansible/postgresql_db_module.html)
+# http://docs.ansible.com/ansible/postgresql_db_module.html
+- name: Create database
   become: yes
-  become_user: postgres
+  become_user: "{{ postgresql_admin_user }}"
   postgresql_db:
-    name=testdb
-    encoding='UTF-8'
-    lc_collate='ja_JP.UTF-8'
-    lc_ctype='ja_JP.UTF-8'
-    template='template0'
+    name: "{{ item.name }}"
+    owner: "{{ item.owner | default(omit) }}"
+    encoding: "{{ postgresql_encoding }}"
+    lc_collate: "{{ postgresql_locale }}"
+    lc_ctype: "{{ postgresql_locale }}"
+    template: "template0"
+    state: present
+  with_items: postgresql_databases
+  when: postgresql_databases|length > 0
